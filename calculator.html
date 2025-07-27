@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <style>
+      /* Define root-level CSS variables for colors */
+      :root {
+        --design-color: red;
+        --bg-color: whitesmoke;
+        --text-color: black;
+      }
+
+      /* Reset default styles and apply consistent box-sizing */
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      /* Style the body to center content and enable theme transitions */
+      body {
+        height: 100vh;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        transition: 2s;
+      }
+
+      /* Define the main layout containers */
+      article,
+      main {
+        height: 90%;
+        width: 45%;
+      }
+
+      /* Center the calculator section within the main container */
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Style for the calculator container */
+      section {
+        height: 95%;
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: black;
+        border-radius: 50px;
+        outline: none;
+        box-shadow: 5px 5px 5px grey;
+        border: 0.2px solid rgb(91, 88, 88);
+        position: relative;
+      }
+
+      /* CSS animation properties for the gradient effect */
+      @property --angle {
+        syntax: "<angle>";
+        inherits: false;
+        initial-value: 0deg;
+      }
+
+      /* Animated gradient effect */
+      section::after,
+      section::before {
+        --angle: 0deg;
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-image: conic-gradient(
+          from var(--angle),
+          transparent 70%,
+          var(--design-color)
+        );
+        z-index: -1;
+        padding: 5px;
+        padding-left: 10px;
+        border-radius: inherit;
+        animation-name: rotate;
+        animation-timing-function: linear;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+      }
+
+      section::before {
+        filter: blur(10px);
+        opacity: 1;
+      }
+
+      /* Keyframes for the rotation animation */
+      @keyframes rotate {
+        from {
+          --angle: 0deg;
+        }
+        to {
+          --angle: 360deg;
+        }
+      }
+
+      /* Style the input field for user inputs */
+      section input {
+        height: 25%;
+        width: 90%;
+        font-size: 30px;
+        outline: none;
+        border: none;
+        background-color: black;
+        color: white;
+        text-align: right;
+        padding-right: 20px;
+      }
+
+      /* Style for each button container */
+      section div {
+        height: 12%;
+        width: 90%;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      /* General button styles */
+      section div button {
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        border: none;
+        background-color: grey;
+        color: white;
+        font-size: 20px;
+      }
+
+      /* Special styles for function buttons */
+      section div .cement {
+        background-color: whitesmoke;
+        color: black;
+      }
+      section div .orange {
+        background-color: orange;
+      }
+      section div .capsule {
+        height: 50px;
+        width: 110px;
+        border-radius: 30px;
+      }
+
+      /* Styling for the article content */
+      article {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 30px;
+        padding-left: 100px;
+        padding-right: 50px;
+      }
+
+      article h1 {
+        font-size: 50px;
+        text-shadow: 5px 5px 5px grey;
+      }
+
+      article p {
+        font-size: 20px;
+        color: grey;
+      }
+
+      /* Highlight the first letter in the title */
+      article h1::first-letter {
+        font-size: 150px;
+        color: var(--design-color);
+      }
+
+      /* Style the theme toggle button */
+      article button {
+        height: 40px;
+        width: 150px;
+        border: none;
+        background-color: var(--design-color);
+        border-radius: 20px;
+        color: white;
+        font-size: 17px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Left content describing the calculator -->
+    <article>
+      <h1>Calculator</h1>
+      <p>
+        This is a simple calculator with memory functions similar to a small handheld calculator. Use this basic calculator online for math with addition, subtraction, division and multiplication.
+      </p>
+      <button onclick="change_theme()" id="dmb">Dark Mode</button>
+    </article>
+
+    <!-- Calculator UI -->
+    <main>
+      <section>
+        <!-- Display for the calculator -->
+        <input type="text" id="output" />
+
+        <!-- Row of buttons -->
+        <div>
+          <button class="cement capsule" onclick="clear_data()">AC</button>
+          <button class="cement" onclick="remove_num()">DEL</button>
+          <button class="orange" onclick="add_value(this)">+</button>
+        </div>
+        <div>
+          <button onclick="add_value(this)">7</button>
+          <button onclick="add_value(this)">8</button>
+          <button onclick="add_value(this)">9</button>
+          <button class="orange" onclick="add_value(this)">*</button>
+        </div>
+        <div>
+          <button onclick="add_value(this)">4</button>
+          <button onclick="add_value(this)">5</button>
+          <button onclick="add_value(this)">6</button>
+          <button class="orange" onclick="add_value(this)">-</button>
+        </div>
+        <div>
+          <button onclick="add_value(this)">1</button>
+          <button onclick="add_value(this)">2</button>
+          <button onclick="add_value(this)">3</button>
+          <button class="orange" onclick="add_value(this)">+</button>
+        </div>
+        <div>
+          <button class="capsule" onclick="add_value(this)">0</button>
+          <button onclick="add_value(this)">.</button>
+          <button class="orange" onclick="result()">=</button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // Reference to the output field
+      let op = document.getElementById("output");
+      let res = false;
+
+      // Toggle between dark and light themes
+      function change_theme() {
+        let root = document.documentElement;
+        let currentBg = getComputedStyle(root).getPropertyValue("--bg-color");
+        if (currentBg === "whitesmoke") {
+          // Play light switch sound for dark mode
+          let sound1 = new Audio("./light-switch-turn.mp3");
+          sound1.play();
+          root.style.setProperty("--bg-color", "black");
+          root.style.setProperty("--text-color", "white");
+          root.style.setProperty("--design-color", "blue");
+          dmb.innerText = "Light Mode";
+        } else {
+          // Play switch sound for light mode
+          let sound = new Audio("./new-level.mp3");
+          sound.play();
+          root.style.setProperty("--bg-color", "whitesmoke");
+          root.style.setProperty("--text-color", "black");
+          root.style.setProperty("--design-color", "red");
+          dmb.innerText = "Dark Mode";
+        }
+      }
+
+      // Append button value to the input display
+      function add_value(e) {
+        if (res === true) {
+          op.value = "";
+          op.style.color = "white";
+          op.style.fontSize = "30px";
+          res = false;
+        }
+        op.value += e.innerText;
+      }
+
+      // Clear the calculator input display
+      function clear_data() {
+        op.value = "";
+      }
+
+      // Calculate the result and display it
+      function result() {
+        op.value = eval(op.value);
+        res = true;
+        op.style.color = "yellowgreen";
+        op.style.fontSize = "50px";
+      }
+
+      // Remove the last character from the display
+      function remove_num() {
+        op.value = op.value.slice(0, -1);
+      }
+    </script>
+  </body>
+</html>
+```
